@@ -3,43 +3,93 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy Policy · Log Mc</title>
+<title>Privacy Policy — Log mc</title>
+<meta name="description" content="Log mc privacy policy — your logbook stays in your own iCloud. No trackers, no ads, no servers we can read.">
+<link rel="icon" href="icon.png">
 <style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body {
-    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    margin: 0; padding: 0;
-    color: #1c1c1e; background: #fff;
+  :root{
+    color-scheme: light dark;
+    --green:#1ea672; --green-deep:#157a52; --green-soft:#e6f4ec;
+    --cream:#f4efe4; --ink:#1b1f1c; --muted:#5c6a61;
+    --card:#ffffff; --border:#e8e3d6;
   }
-  @media (prefers-color-scheme: dark) {
-    body { color: #e7e7ea; background: #0e0f12; }
-    a { color: #6fb1ff; }
-    .meta { color: #8d9099; }
-    hr { border-color: #26282e; }
-    .card { background: #16181d; border-color: #24262c; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; color:var(--ink);
+    font:17px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 560px at 50% -8%, #fbf7ec 0%, var(--cream) 52%, #efe9db 100%);
+    -webkit-font-smoothing:antialiased; }
+  a{ color:var(--green-deep); }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 22px; }
+  .narrow{ max-width:740px; }
+  h1,h2{ letter-spacing:-0.025em; line-height:1.14; }
+
+  header.site{ position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(244,239,228,.72); border-bottom:1px solid rgba(0,0,0,.05); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:700; font-size:18px; letter-spacing:-.02em; color:var(--ink); text-decoration:none; }
+  .brand img{ width:34px; height:34px; border-radius:9px; box-shadow:0 2px 6px rgba(0,0,0,.12); }
+  .nav-links{ display:flex; align-items:center; gap:24px; font-size:15px; }
+  .nav-links a{ color:var(--muted); font-weight:500; text-decoration:none; } .nav-links a:hover{ color:var(--ink); }
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:15px; text-decoration:none;
+    padding:9px 18px; border-radius:999px; transition:transform .12s ease, background .2s ease; }
+  .btn-primary{ background:var(--green); color:#fff; box-shadow:0 8px 20px -8px rgba(30,166,114,.7); }
+  .btn-primary:hover{ background:var(--green-deep); transform:translateY(-1px); }
+
+  .head{ padding:50px 0 6px; }
+  .eyebrow{ display:inline-block; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--green-deep); background:var(--green-soft); padding:6px 13px; border-radius:999px; }
+  .head h1{ font-size:clamp(30px,4.4vw,44px); margin:16px 0 4px; }
+  .meta{ color:var(--muted); font-size:14.5px; margin:0; }
+
+  .lead{ font-size:18.5px; color:#3f4b44; margin:26px 0 0; }
+  @media (prefers-color-scheme:dark){ .lead{ color:#bcc3bb; } }
+  h2{ font-size:21px; margin:34px 0 8px; }
+  p{ margin:10px 0; } ul{ padding-left:22px; margin:10px 0; } li{ margin:7px 0; }
+  code{ font-size:13.5px; background:rgba(30,166,114,.12); color:var(--green-deep); padding:2px 7px; border-radius:7px; }
+  @media (prefers-color-scheme:dark){ code{ color:#7fe3b6; } }
+
+  .card{ border:1px solid var(--border); border-radius:16px; padding:18px 20px; margin:20px 0; background:var(--card);
+    box-shadow:0 10px 30px -22px rgba(0,0,0,.18); }
+  .card.accent{ background:var(--green-soft); border-color:#cfe9da; }
+  @media (prefers-color-scheme:dark){ .card.accent{ background:rgba(30,166,114,.10); border-color:rgba(30,166,114,.3); } }
+  .card strong{ font-size:16px; }
+  .card ul{ margin:10px 0 0; }
+
+  footer{ border-top:1px solid var(--border); margin-top:46px; }
+  .foot{ display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; padding:30px 0 50px; font-size:14.5px; color:var(--muted); }
+  .foot a{ color:var(--muted); font-weight:500; text-decoration:none; } .foot a:hover{ color:var(--ink); }
+  .foot .sp{ flex:1; }
+  .disc{ width:100%; font-size:13px; color:#8a948c; }
+
+  @media (prefers-color-scheme:dark){
+    body{ --ink:#e9ece8; --muted:#9aa49b; --card:#171b17; --border:#2a2f29;
+      background:radial-gradient(1100px 560px at 50% -8%, #14241b 0%, #0f120f 55%); }
+    header.site{ background:rgba(15,18,15,.72); }
   }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 40px 22px 80px; }
-  h1 { font-size: 28px; letter-spacing: -0.02em; margin: 0 0 4px; }
-  h2 { font-size: 19px; letter-spacing: -0.01em; margin: 34px 0 8px; }
-  .meta { color: #6b6f76; font-size: 14px; margin: 0 0 8px; }
-  a { color: #0a66ff; }
-  hr { border: none; border-top: 1px solid #e6e6ea; margin: 24px 0; }
-  ul { padding-left: 22px; }
-  li { margin: 6px 0; }
-  .card {
-    border: 1px solid #e6e6ea; border-radius: 14px;
-    padding: 16px 18px; margin: 18px 0; background: #fafafb;
-  }
-  .lead { font-size: 17px; }
-  code { font-size: 13px; background: rgba(127,127,127,.14); padding: 1px 6px; border-radius: 6px; }
+  @media (max-width:760px){ .nav-links .hidesm{ display:none; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Privacy Policy</h1>
-  <p class="meta">Log Mc · Last updated 14 June 2026</p>
-  <hr>
+
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="icon.png" alt="Log mc logo"> Log&nbsp;mc</a>
+    <nav class="nav-links">
+      <a class="hidesm" href="index.html">Home</a>
+      <a class="hidesm" href="support.html">Support</a>
+      <a class="btn btn-primary" href="beta.html">Join the beta</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap narrow">
+
+  <div class="head">
+    <span class="eyebrow">Your data, your iCloud</span>
+    <h1>Privacy Policy</h1>
+    <p class="meta">Log mc · Last updated 14 June 2026</p>
+  </div>
 
   <p class="lead">Log Mc is a work-and-rest logbook for Australian heavy-vehicle
   drivers. It is built around a simple idea: <strong>your logbook is yours.</strong>
@@ -58,7 +108,7 @@
     </ul>
   </div>
 
-  <div class="card">
+  <div class="card accent">
     <strong>What Log Mc is (and isn&rsquo;t)</strong>
     <p style="margin:8px 0 0">Log Mc is a work-and-rest <strong>calculator and assistant</strong>.
     It is <strong>not</strong> an Electronic Work Diary, not a system of record, and not a
@@ -142,9 +192,19 @@
   <p>If this policy changes, the updated version will be posted on this page with a
   new &ldquo;last updated&rdquo; date.</p>
 
-  <hr>
-  <p class="meta">Contact:
-  <a href="mailto:sukhdeepsingh9084@gmail.com">sukhdeepsingh9084@gmail.com</a></p>
-</div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="index.html" style="font-size:16px;"><img src="icon.png" alt="" style="width:26px;height:26px;border-radius:7px;"> Log&nbsp;mc</a>
+    <span class="sp"></span>
+    <a href="support.html">Support</a>
+    <a href="index.html">Home</a>
+    <a href="mailto:sukhdeepsingh9084@gmail.com">Contact</a>
+    <p class="disc">© 2026 Sukhdeep Singh Sandhu (sole trader), Australia. Log mc is general guidance,
+      not legal advice, and not a substitute for the paper National Driver Work Diary.</p>
+  </div>
+</footer>
+
 </body>
 </html>
