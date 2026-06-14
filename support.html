@@ -3,80 +3,154 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Support · Log Mc</title>
+<title>Support — Log mc</title>
+<meta name="description" content="Log mc support — help, FAQ and contact for the work & rest assistant for Australian heavy-vehicle drivers.">
+<link rel="icon" href="icon.png">
 <style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body {
-    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    margin: 0; color: #1c1c1e; background: #fff;
+  :root{
+    color-scheme: light dark;
+    --green:#1ea672; --green-deep:#157a52; --green-soft:#e6f4ec;
+    --cream:#f4efe4; --ink:#1b1f1c; --muted:#5c6a61;
+    --card:#ffffff; --border:#e8e3d6;
+    --shadow:0 28px 60px -24px rgba(18,70,46,.30), 0 8px 22px -12px rgba(0,0,0,.14);
   }
-  @media (prefers-color-scheme: dark) {
-    body { color: #e7e7ea; background: #0e0f12; }
-    a { color: #6fb1ff; } .meta { color: #8d9099; }
-    .card { background: #16181d; border-color: #24262c; }
-    hr { border-color: #26282e; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{ margin:0; color:var(--ink);
+    font:17px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1100px 560px at 50% -8%, #fbf7ec 0%, var(--cream) 52%, #efe9db 100%);
+    -webkit-font-smoothing:antialiased; }
+  a{ color:var(--green-deep); text-decoration:none; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 22px; }
+  .narrow{ max-width:720px; }
+  h1,h2,h3{ letter-spacing:-0.025em; line-height:1.12; }
+
+  header.site{ position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(244,239,228,.72); border-bottom:1px solid rgba(0,0,0,.05); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:700; font-size:18px; letter-spacing:-.02em; color:var(--ink); }
+  .brand img{ width:34px; height:34px; border-radius:9px; box-shadow:0 2px 6px rgba(0,0,0,.12); }
+  .nav-links{ display:flex; align-items:center; gap:24px; font-size:15px; }
+  .nav-links a{ color:var(--muted); font-weight:500; } .nav-links a:hover{ color:var(--ink); }
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:15px;
+    padding:9px 18px; border-radius:999px; transition:transform .12s ease, box-shadow .2s ease, background .2s ease; }
+  .btn-primary{ background:var(--green); color:#fff; box-shadow:0 8px 20px -8px rgba(30,166,114,.7); }
+  .btn-primary:hover{ background:var(--green-deep); transform:translateY(-1px); }
+
+  .head{ padding:54px 0 8px; }
+  .eyebrow{ display:inline-block; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--green-deep); background:var(--green-soft); padding:6px 13px; border-radius:999px; }
+  .head h1{ font-size:clamp(32px,4.6vw,46px); margin:16px 0 8px; }
+  .head p{ font-size:18px; color:var(--muted); margin:0; }
+
+  .contact{ display:flex; gap:16px; align-items:flex-start; background:var(--green-soft);
+    border:1px solid #cfe9da; border-radius:18px; padding:20px 22px; margin:26px 0; }
+  @media (prefers-color-scheme:dark){ .contact{ background:rgba(30,166,114,.10); border-color:rgba(30,166,114,.3); } }
+  .contact .ic{ font-size:24px; }
+  .contact b{ font-size:17px; }
+  .contact p{ margin:4px 0 0; color:var(--muted); font-size:15.5px; }
+
+  h2.sec{ font-size:22px; margin:34px 0 6px; }
+  .lead{ color:var(--muted); font-size:16.5px; margin:0 0 14px; }
+
+  details{ background:var(--card); border:1px solid var(--border); border-radius:14px; padding:4px 18px; margin:10px 0;
+    transition:box-shadow .2s ease; }
+  details[open]{ box-shadow:0 10px 30px -16px rgba(0,0,0,.16); }
+  summary{ cursor:pointer; font-weight:600; font-size:16.5px; padding:14px 0; list-style:none; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  summary::-webkit-details-marker{ display:none; }
+  summary::after{ content:"+"; color:var(--green); font-weight:700; font-size:20px; line-height:1; }
+  details[open] summary::after{ content:"–"; }
+  details p{ margin:0 0 16px; color:#46524b; font-size:15.5px; line-height:1.6; }
+  @media (prefers-color-scheme:dark){ details p{ color:#b3bab2; } }
+
+  footer{ border-top:1px solid var(--border); margin-top:40px; }
+  .foot{ display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; padding:30px 0 50px; font-size:14.5px; color:var(--muted); }
+  .foot a{ color:var(--muted); font-weight:500; } .foot a:hover{ color:var(--ink); }
+  .foot .sp{ flex:1; }
+  .disc{ width:100%; font-size:13px; color:#8a948c; }
+
+  @media (prefers-color-scheme:dark){
+    body{ --ink:#e9ece8; --muted:#9aa49b; --card:#171b17; --border:#2a2f29;
+      background:radial-gradient(1100px 560px at 50% -8%, #14241b 0%, #0f120f 55%); }
+    header.site{ background:rgba(15,18,15,.72); }
   }
-  .wrap { max-width: 680px; margin: 0 auto; padding: 40px 22px 80px; }
-  h1 { font-size: 28px; letter-spacing: -0.02em; margin: 0 0 4px; }
-  h2 { font-size: 18px; margin: 30px 0 8px; }
-  .meta { color: #6b6f76; font-size: 14px; }
-  a { color: #0a66ff; }
-  hr { border: none; border-top: 1px solid #e6e6ea; margin: 22px 0; }
-  .card { border: 1px solid #e6e6ea; border-radius: 14px; padding: 16px 18px; margin: 18px 0; background: #fafafb; }
-  details { margin: 10px 0; }
-  summary { cursor: pointer; font-weight: 600; }
-  ul { padding-left: 22px; } li { margin: 6px 0; }
+  @media (max-width:760px){ .nav-links .hidesm{ display:none; } }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>Log Mc &mdash; Support</h1>
-  <p class="meta">Work &amp; rest logbook for Australian heavy-vehicle drivers</p>
-  <hr>
 
-  <div class="card">
-    <strong>Need help?</strong> Email
-    <a href="mailto:sukhdeepsingh9084@gmail.com">sukhdeepsingh9084@gmail.com</a>.
-    Please include your iPhone model and iOS version, and what you were doing when
-    the problem happened. We usually reply within a couple of days.
+<header class="site">
+  <div class="wrap nav">
+    <a class="brand" href="index.html"><img src="icon.png" alt="Log mc logo"> Log&nbsp;mc</a>
+    <nav class="nav-links">
+      <a class="hidesm" href="index.html">Home</a>
+      <a class="hidesm" href="privacy.html">Privacy</a>
+      <a class="btn btn-primary" href="beta.html">Join the beta</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap narrow">
+
+  <div class="head">
+    <span class="eyebrow">We're here to help</span>
+    <h1>Support</h1>
+    <p>Work &amp; rest logbook for Australian heavy-vehicle drivers.</p>
   </div>
 
-  <h2>Beta testers</h2>
-  <p>Thanks for helping test Log Mc. If something looks wrong &mdash; a number that
-  doesn&rsquo;t add up, a screen that&rsquo;s confusing, a crash &mdash; the most
-  useful thing you can send is a screenshot plus a one-line description.</p>
+  <div class="contact">
+    <div class="ic">✉️</div>
+    <div>
+      <b>Need help?</b>
+      <p>Email <a href="mailto:sukhdeepsingh9084@gmail.com">sukhdeepsingh9084@gmail.com</a>.
+        Include your iPhone model and iOS version, and what you were doing when the problem
+        happened. We usually reply within a couple of days.</p>
+    </div>
+  </div>
 
-  <h2>Common questions</h2>
+  <h2 class="sec">Beta testers</h2>
+  <p class="lead">Thanks for helping test Log mc. If something looks wrong — a number that doesn't
+    add up, a screen that's confusing, a crash — the most useful thing you can send is a
+    <strong>screenshot plus a one-line description</strong>, or use <strong>TestFlight → Send Beta Feedback</strong>.</p>
+
+  <h2 class="sec">Common questions</h2>
+
   <details>
-    <summary>Is Log Mc a certified electronic work diary (EWD)?</summary>
-    <p>No. Log Mc is a smart assistant to help you understand your work and rest
-    against the fatigue rules. It is not an NHVR-approved Electronic Work Diary, and
-    it does not replace your legal record-keeping obligations.</p>
+    <summary>Is Log mc a certified Electronic Work Diary (EWD)?</summary>
+    <p>No. Log mc is a smart assistant that helps you understand your work and rest against the
+      fatigue rules. It is not an NHVR-approved Electronic Work Diary, and it does not replace
+      your legal record-keeping obligations — keep your paper National Driver Work Diary.</p>
   </details>
   <details>
     <summary>Where is my data stored?</summary>
-    <p>In your own iCloud account. We don&rsquo;t run servers that can read your
-    logbook. See the <a href="privacy.html">Privacy Policy</a>.</p>
+    <p>In your own iCloud account. We don't run servers that can read your logbook.
+      See the <a href="privacy.html">Privacy Policy</a> for the details.</p>
   </details>
   <details>
     <summary>Why does it ask for my location?</summary>
-    <p>Only to auto-fill the suburb when you start work, rest, or end a shift &mdash;
-    and to estimate distance if you want it. You can always type it in instead, and
-    you can deny the permission entirely.</p>
+    <p>Only to auto-fill the suburb when you start work, take rest, or end a shift — and to
+      estimate distance if you want it. You can always type it in instead, and you can deny
+      the permission entirely; the app still works.</p>
   </details>
   <details>
     <summary>How do I delete my data?</summary>
-    <p>Delete individual entries in the app, or remove the app and clear its iCloud
-    data under Settings &rarr; your name &rarr; iCloud &rarr; Manage Account Storage.
-    Email us if you&rsquo;d like help.</p>
+    <p>Delete individual entries in the app, or remove the app and clear its iCloud data under
+      Settings → your name → iCloud → Manage Account Storage. Email us if you'd like help.</p>
   </details>
 
-  <hr>
-  <p class="meta">
-    <a href="privacy.html">Privacy Policy</a> &nbsp;&middot;&nbsp;
-    <a href="mailto:sukhdeepsingh9084@gmail.com">sukhdeepsingh9084@gmail.com</a>
-  </p>
-</div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="index.html" style="font-size:16px;"><img src="icon.png" alt="" style="width:26px;height:26px;border-radius:7px;"> Log&nbsp;mc</a>
+    <span class="sp"></span>
+    <a href="privacy.html">Privacy</a>
+    <a href="index.html">Home</a>
+    <a href="mailto:sukhdeepsingh9084@gmail.com">Contact</a>
+    <p class="disc">© 2026 Sukhdeep Singh Sandhu (sole trader), Australia. Log mc is general guidance,
+      not legal advice, and not a substitute for the paper National Driver Work Diary.</p>
+  </div>
+</footer>
+
 </body>
 </html>
