@@ -3,65 +3,280 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Log Mc &mdash; smart work &amp; rest logbook</title>
+<title>Log mc — know exactly how long you can drive</title>
+<meta name="description" content="Log mc turns the NHVR heavy-vehicle fatigue rules into one clear countdown — when you can start, how long you can drive, and what a break buys back. Built for Australian truck drivers.">
+<link rel="icon" href="icon.png">
+<meta property="og:title" content="Log mc — know exactly how long you can drive">
+<meta property="og:description" content="The NHVR fatigue rules, turned into one clear countdown. Built for Australian heavy-vehicle drivers.">
+<meta property="og:image" content="icon.png">
+<meta property="og:type" content="website">
 <style>
-  :root { color-scheme: light dark; }
-  * { box-sizing: border-box; }
-  body {
-    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    margin: 0; color: #1c1c1e;
-    background: radial-gradient(1200px 600px at 50% -10%, #eef3ff 0%, #fff 60%);
+  :root{
+    color-scheme: light dark;
+    --green:#1ea672; --green-deep:#157a52; --green-soft:#e6f4ec;
+    --cream:#f4efe4; --ink:#1b1f1c; --muted:#5c6a61;
+    --card:#ffffff; --border:#e8e3d6; --amber:#e6952f;
+    --shadow:0 28px 60px -24px rgba(18,70,46,.30), 0 8px 22px -12px rgba(0,0,0,.14);
   }
-  @media (prefers-color-scheme: dark) {
-    body { color: #e7e7ea; background: radial-gradient(1200px 600px at 50% -10%, #15203a 0%, #0e0f12 60%); }
-    a { color: #6fb1ff; } .meta { color: #8d9099; }
-    .feat { background: #16181d; border-color: #24262c; }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; color:var(--ink);
+    font:17px/1.62 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:
+      radial-gradient(1100px 560px at 50% -8%, #fbf7ec 0%, var(--cream) 52%, #efe9db 100%);
+    -webkit-font-smoothing:antialiased;
   }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 64px 22px 80px; }
-  .badge { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .04em;
-    text-transform: uppercase; color: #0a66ff; }
-  h1 { font-size: 40px; letter-spacing: -0.03em; margin: 8px 0 10px; }
-  .tag { font-size: 19px; color: #4a4e57; max-width: 540px; }
-  @media (prefers-color-scheme: dark){ .tag{ color:#aeb2bb; } }
-  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 36px 0; }
-  @media (max-width: 560px){ .grid{ grid-template-columns: 1fr; } h1{ font-size:32px; } }
-  .feat { border: 1px solid #e6e6ea; border-radius: 16px; padding: 18px 20px; background: #fff; }
-  .feat h3 { margin: 0 0 4px; font-size: 17px; }
-  .feat p { margin: 0; font-size: 15px; color: #5b5f67; }
-  @media (prefers-color-scheme: dark){ .feat p{ color:#9aa0aa; } }
-  .meta { color: #6b6f76; font-size: 14px; }
-  a { color: #0a66ff; }
-  .foot { margin-top: 40px; }
+  a{ color:var(--green-deep); text-decoration:none; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:0 22px; }
+  h1,h2,h3{ letter-spacing:-0.025em; line-height:1.08; }
+
+  /* Nav */
+  header{ position:sticky; top:0; z-index:20; backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(244,239,228,.72); border-bottom:1px solid rgba(0,0,0,.05); }
+  .nav{ display:flex; align-items:center; justify-content:space-between; height:64px; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:700; font-size:18px; letter-spacing:-.02em; color:var(--ink); }
+  .brand img{ width:34px; height:34px; border-radius:9px; box-shadow:0 2px 6px rgba(0,0,0,.12); }
+  .nav-links{ display:flex; align-items:center; gap:24px; font-size:15px; }
+  .nav-links a{ color:var(--muted); font-weight:500; }
+  .nav-links a:hover{ color:var(--ink); }
+  .btn{ display:inline-flex; align-items:center; gap:8px; font-weight:600; font-size:15px;
+    padding:11px 20px; border-radius:999px; transition:transform .12s ease, box-shadow .2s ease, background .2s ease; }
+  .btn-primary{ background:var(--green); color:#fff; box-shadow:0 8px 20px -8px rgba(30,166,114,.7); }
+  .btn-primary:hover{ background:var(--green-deep); transform:translateY(-1px); }
+  .btn-ghost{ background:transparent; color:var(--ink); border:1px solid var(--border); }
+  .btn-ghost:hover{ border-color:var(--green); color:var(--green-deep); }
+  .nav .btn{ padding:9px 18px; }
+
+  /* Hero */
+  .hero{ display:grid; grid-template-columns:1.05fr .95fr; gap:48px; align-items:center; padding:74px 0 36px; }
+  .eyebrow{ display:inline-block; font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--green-deep); background:var(--green-soft); padding:6px 13px; border-radius:999px; }
+  .hero h1{ font-size:clamp(36px,5.2vw,56px); margin:18px 0 16px; }
+  .hero h1 .hl{ color:var(--green-deep); }
+  .lede{ font-size:20px; color:#43504a; max-width:520px; }
+  @media (prefers-color-scheme:dark){ .lede{ color:#b7beb6; } }
+  .honesty{ display:inline-flex; align-items:center; gap:8px; margin-top:20px; font-size:14.5px; color:var(--muted);
+    background:rgba(255,255,255,.6); border:1px solid var(--border); padding:9px 15px; border-radius:12px; }
+  .honesty b{ color:var(--ink); font-weight:600; }
+  .cta-row{ display:flex; gap:12px; margin-top:26px; flex-wrap:wrap; }
+
+  .phone{ position:relative; justify-self:center; }
+  .phone::before{ content:""; position:absolute; inset:-8% -12% -6% -12%;
+    background:radial-gradient(60% 55% at 50% 40%, rgba(30,166,114,.20), transparent 70%); filter:blur(8px); z-index:0; }
+  .shot{ position:relative; z-index:1; width:100%; max-width:300px; display:block; border-radius:36px;
+    border:6px solid #11140f; background:#11140f; box-shadow:var(--shadow); }
+  @media (prefers-color-scheme:dark){ .shot{ border-color:#000; } }
+
+  /* Trust strip under hero */
+  .strip{ display:flex; flex-wrap:wrap; gap:10px 26px; padding:8px 0 6px; color:var(--muted); font-size:14.5px; }
+  .strip span{ display:inline-flex; align-items:center; gap:7px; }
+  .dotg{ width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; }
+
+  /* Section heading */
+  .sec{ padding:62px 0; }
+  .sec-head{ text-align:center; max-width:640px; margin:0 auto 14px; }
+  .sec-head h2{ font-size:clamp(28px,3.6vw,38px); margin:0 0 10px; }
+  .sec-head p{ font-size:18px; color:var(--muted); margin:0; }
+
+  /* Feature rows */
+  .feature{ display:grid; grid-template-columns:1fr 1fr; gap:54px; align-items:center; padding:46px 0; }
+  .feature.flip .ftext{ order:2; }
+  .feature.flip .fimg{ order:1; }
+  .fimg{ display:flex; justify-content:center; }
+  .fimg img{ width:100%; max-width:268px; border-radius:34px; border:6px solid #11140f; background:#11140f; box-shadow:var(--shadow); }
+  .kick{ font-size:13px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--green); }
+  .ftext h3{ font-size:clamp(24px,3vw,32px); margin:10px 0 12px; }
+  .ftext p{ font-size:17.5px; color:#46524b; margin:0; }
+  @media (prefers-color-scheme:dark){ .ftext p{ color:#b3bab2; } }
+
+  /* Trust band */
+  .band{ background:var(--green-deep); color:#eafaf2; border-radius:28px; padding:46px 40px; margin:30px 0; }
+  .band .cols{ display:grid; grid-template-columns:repeat(3,1fr); gap:34px; }
+  .band h3{ font-size:19px; margin:0 0 8px; color:#fff; }
+  .band p{ font-size:15.5px; margin:0; color:#cfeedd; line-height:1.6; }
+  .band .ic{ font-size:24px; margin-bottom:6px; }
+
+  /* Closing CTA */
+  .closing{ text-align:center; padding:70px 0 30px; }
+  .closing h2{ font-size:clamp(30px,4vw,44px); margin:0 0 14px; }
+  .closing p{ font-size:19px; color:var(--muted); margin:0 0 26px; }
+
+  /* Footer */
+  footer{ border-top:1px solid var(--border); margin-top:30px; }
+  .foot{ display:flex; flex-wrap:wrap; gap:14px 26px; align-items:center; padding:30px 0 50px; font-size:14.5px; color:var(--muted); }
+  .foot a{ color:var(--muted); font-weight:500; }
+  .foot a:hover{ color:var(--ink); }
+  .foot .sp{ flex:1; }
+  .disc{ width:100%; font-size:13px; color:#8a948c; }
+
+  @media (prefers-color-scheme:dark){
+    body{ --ink:#e9ece8; --muted:#9aa49b; --card:#171b17; --border:#2a2f29;
+      background:radial-gradient(1100px 560px at 50% -8%, #14241b 0%, #0f120f 55%); }
+    header{ background:rgba(15,18,15,.72); border-bottom-color:rgba(255,255,255,.06); }
+    .honesty{ background:rgba(255,255,255,.04); }
+    .btn-ghost{ color:var(--ink); }
+  }
+  @media (max-width:860px){
+    .hero{ grid-template-columns:1fr; gap:30px; padding:46px 0 18px; text-align:center; }
+    .hero .lede{ margin-left:auto; margin-right:auto; }
+    .cta-row{ justify-content:center; }
+    .strip{ justify-content:center; }
+    .feature{ grid-template-columns:1fr; gap:26px; padding:34px 0; text-align:center; }
+    .feature.flip .ftext{ order:2; } .feature.flip .fimg{ order:1; }
+    .feature .fimg{ order:1; } .feature .ftext{ order:2; }
+    .band .cols{ grid-template-columns:1fr; gap:24px; text-align:center; }
+    .nav-links .hidesm{ display:none; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <span class="badge">For Australian heavy-vehicle drivers</span>
-  <h1>Log&nbsp;Mc</h1>
-  <p class="tag">A smart work-and-rest logbook that tells you, in plain words, when
-  you can start, how long you can drive, and what a break buys you &mdash; against the
-  fatigue rules, on your wrist and your lock screen.</p>
 
-  <div class="grid">
-    <div class="feat"><h3>One timer that matters</h3>
-      <p>While you drive, a single countdown shows the tightest limit across every
-      rule &mdash; and why.</p></div>
-    <div class="feat"><h3>What a break buys</h3>
-      <p>Resting? See exactly how much drive time 15, 30 or 60 minutes earns back.</p></div>
-    <div class="feat"><h3>When can I start?</h3>
-      <p>Before a shift, a clear countdown to when your next shift can legally begin.</p></div>
-    <div class="feat"><h3>Your data, your iCloud</h3>
-      <p>No trackers, no ads, no servers we can read. Your logbook stays yours.</p></div>
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><img src="icon.png" alt="Log mc logo"> Log&nbsp;mc</a>
+    <nav class="nav-links">
+      <a class="hidesm" href="#how">How it works</a>
+      <a class="hidesm" href="support.html">Support</a>
+      <a class="btn btn-primary" href="beta.html">Join the beta</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Made for Australian heavy-vehicle drivers</span>
+      <h1>Know exactly how long you <span class="hl">can drive.</span></h1>
+      <p class="lede">Log mc reads the NHVR fatigue rules so you don't have to — one clear
+        countdown for when you can start, how long you've got, and what a break buys back.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="beta.html">Join the TestFlight beta</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <div class="honesty">🪪&nbsp; <span><b>An assistant, not an Electronic Work Diary.</b> Keep your paper diary — Log mc helps you read the rules.</span></div>
+    </div>
+    <div class="phone">
+      <img class="shot" src="screenshots/shot-4.jpg" alt="Log mc driving screen showing a large countdown ring with the time left before the next required break">
+    </div>
+  </section>
+
+  <div class="strip">
+    <span><i class="dotg"></i> Standard Hours &amp; BFM</span>
+    <span><i class="dotg"></i> Solo &amp; two-up</span>
+    <span><i class="dotg"></i> Works on your lock screen</span>
+    <span><i class="dotg"></i> No ads, no trackers</span>
   </div>
 
-  <p class="meta">Log Mc is an assistant, not a certified Electronic Work Diary.
-  It helps you understand the rules; it doesn&rsquo;t replace your legal record.</p>
+  <!-- HOW / FEATURES -->
+  <section class="sec" id="how">
+    <div class="sec-head">
+      <h2>The whole shift, made simple</h2>
+      <p>No mental maths, no spreadsheet. Just the number that matters, right when you need it.</p>
+    </div>
 
-  <p class="foot meta">
-    <a href="privacy.html">Privacy Policy</a> &nbsp;&middot;&nbsp;
-    <a href="support.html">Support</a> &nbsp;&middot;&nbsp;
+    <div class="feature">
+      <div class="ftext">
+        <div class="kick">One timer that matters</div>
+        <h3>Every rule, one countdown</h3>
+        <p>While you drive, Log mc shows a single timer — the tightest limit across every
+          work-and-rest rule that applies to you, and the plain-English reason behind it.
+          Tap to rest the moment you need to.</p>
+      </div>
+      <div class="fimg"><img src="screenshots/shot-4.jpg" alt="Driving countdown ring with the reason for the limit"></div>
+    </div>
+
+    <div class="feature flip">
+      <div class="ftext">
+        <div class="kick">Before you turn the key</div>
+        <h3>Know when you can start</h3>
+        <p>Before a shift, see whether you're ready to roll, how much you can work today, and
+          exactly when your next break and daily cap land — all worked out from the rest
+          you've already banked.</p>
+      </div>
+      <div class="fimg"><img src="screenshots/shot-1.jpg" alt="Pre-shift dashboard showing readiness and upcoming breaks"></div>
+    </div>
+
+    <div class="feature">
+      <div class="ftext">
+        <div class="kick">Rest with a plan</div>
+        <h3>See what a break buys back</h3>
+        <p>Pull over and Log mc shows what 15, 30 or 60 minutes — or a full 7-hour reset —
+          earns you in drive time before you stop. It even warns you when a break's too
+          short to count.</p>
+      </div>
+      <div class="fimg"><img src="screenshots/shot-5.jpg" alt="Break timer showing how much drive time each rest length earns"></div>
+    </div>
+
+    <div class="feature flip">
+      <div class="ftext">
+        <div class="kick">Your record, kept straight</div>
+        <h3>An honest logbook</h3>
+        <p>Every work and rest period in a clean, paper-style timeline you can edit, review
+          and export as a PDF — with the locations and odometer readings to back each one up.</p>
+      </div>
+      <div class="fimg"><img src="screenshots/shot-2.jpg" alt="Logbook timeline of work and rest entries"></div>
+    </div>
+
+    <div class="feature">
+      <div class="ftext">
+        <div class="kick">A bit of momentum</div>
+        <h3>Stats that keep you rolling</h3>
+        <p>Streaks, lifetime kilometres, hours worked and rested, and a per-shift breakdown —
+          a little well-earned progress for the long haul.</p>
+      </div>
+      <div class="fimg"><img src="screenshots/shot-3.jpg" alt="Stats screen with streak and lifetime distance"></div>
+    </div>
+  </section>
+
+  <!-- TRUST BAND -->
+  <section class="band">
+    <div class="cols">
+      <div>
+        <div class="ic">📒</div>
+        <h3>Not an Electronic Work Diary</h3>
+        <p>Log mc is a calculator and assistant. Keep your paper National Driver Work Diary —
+          we help you understand the rules, we don't replace your legal record. Final
+          compliance stays with you and your operator.</p>
+      </div>
+      <div>
+        <div class="ic">🔒</div>
+        <h3>Your data, your iCloud</h3>
+        <p>No ads, no third-party trackers, no servers we can read. Your logbook syncs through
+          your own private iCloud and stays yours.</p>
+      </div>
+      <div>
+        <div class="ic">🇦🇺</div>
+        <h3>Built for the real rules</h3>
+        <p>Standard Hours and Basic Fatigue Management, solo and two-up — modelled on the
+          published NHVR work-and-rest requirements.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="closing">
+    <h2>Drive the rules, not the guesswork.</h2>
+    <p>Join the Log mc beta and help shape it before launch.</p>
+    <a class="btn btn-primary" href="beta.html">Join the TestFlight beta</a>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="brand" href="#top" style="font-size:16px;"><img src="icon.png" alt="" style="width:26px;height:26px;border-radius:7px;"> Log&nbsp;mc</a>
+    <span class="sp"></span>
+    <a href="privacy.html">Privacy</a>
+    <a href="support.html">Support</a>
     <a href="mailto:sukhdeepsingh9084@gmail.com">Contact</a>
-  </p>
-</div>
+    <p class="disc">© 2026 Sukhdeep Singh Sandhu (sole trader), Australia. Log mc is general guidance,
+      not legal advice, and not a substitute for the paper National Driver Work Diary.</p>
+  </div>
+</footer>
+
 </body>
 </html>
